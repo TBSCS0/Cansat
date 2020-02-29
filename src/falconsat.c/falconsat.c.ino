@@ -1,39 +1,34 @@
-//Programa : Comunicacao Xbee utilizando Arduino Xbee Shield
-//Autor : FILIPEFLOP
- 
-//Armazena os valores recebidos da serial
-int valores = 0;
-//Armazena o estado do led
-String estado;
+#include <Wire.h>
+#include <SparkFunMPL3115A2.h>
+
+MPL3115A2 myPressure;
   
 void setup()
 {
-  //Define o pino 13 - LED embutido no Arduino - como saida
-  pinMode(13, OUTPUT);
+  Wire.begin(); 
   Serial.begin(9600);
+
+  pinMode(13, OUTPUT);
+
+  myPressure.begin(); 
+  myPressure.setModeBarometer(); // Measure pressure in Pascals from 20 to 110 kPa
+  myPressure.setOversampleRate(4); // Set Oversample to the recommended 128
+  myPressure.enableEventFlags(); // Enable all three pressure and temp event flags 
 }
   
 void loop()
 {
-  //Aguarda dados na serial
-  if (Serial.available() > 0)
-  {
-    valores = Serial.read();
-    //Caso seja recebido 0, apaga o led
-    if(valores == '0')
-    {
-      digitalWrite(13, LOW);
-      estado = "apagado";
-    }
-    //Caso seja recebido 1, acende o led
-    else if(valores == '1')
-    {
-      digitalWrite(13, HIGH);
-      estado = "aceso";
-    }    
-    //Envia mensagem de confirmacao
-    Serial.print(" Led ");
-    Serial.print(estado);
-    Serial.write(10);
-  }
+  digitalWrite(13, HIGH);
+  Serial.print("FalconSat running!");
+  Serial.println();
+  Serial.print("Altitude(m): ");
+  Serial.print(myPressure.readAltitude());
+  Serial.println();
+  Serial.print("Pressure(Pa): ");
+  Serial.print(myPressure.readPressure());
+  Serial.println();
+  Serial.print("Temp(c): ");
+  Serial.print(myPressure.readTemp());
+  Serial.println();
+  Serial.println();
 }
