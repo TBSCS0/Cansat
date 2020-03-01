@@ -1,6 +1,6 @@
 FalconSat
 ===============
-The FalconSat is a demo project created by the most supportive teacher ever, Mr. Oscar. This repository contains the embedded code, radio settings for a cansat project. It intends to serve as an initial guideline for college and university students to start creating their first nanosat.
+This repository contains the embedded code, radio settings for a cansat project. It intends to serve as an initial guideline for college and university students to start creating their first nanosat.
 
 Subsystems
 -----------
